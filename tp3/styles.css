@@ -1,1 +1,26 @@
-
+.titulo{
+    text-align: center;
+}
+body p{
+    font-family: serif;
+}
+p#primer-parrafo{
+    background-color:#CCE;
+}
+p#primer-parrafo em{
+    color:#933
+}
+body p a{
+    outline: 1px solid #333;
+}
+body p.novelas a{
+    outline: 1px solid #333;
+}
+html body p.fuente.parrafo{
+    opacity: 100%;
+    color:#000 !important
+}
+html body  span.complicado{
+    color:#C62 !important;
+    font-weight: 100;
+}
