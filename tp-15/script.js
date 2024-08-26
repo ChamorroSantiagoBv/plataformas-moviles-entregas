@@ -6,6 +6,9 @@ const fetchPokemonData = async (startId, limit) => {
     for (let i = startId; i < startId + limit; i++) {
         const response = await fetch(`https://pokeapi.co/api/v2/pokemon/${i}/`);
         if (!response.ok) {
+            // Manejo de errores si no se encuentra el Pokémon
+            console.error(`No se pudo cargar el Pokémon con ID ${i}`);
+            continue;
         }
         const data = await response.json();
         pokemonData.push({
