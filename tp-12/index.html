@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Lista de Compras - DOM y JavaScript</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
+</head>
+<body>
+    <div class="container my-1 my-sm-2 my-md-4 my-lg-5">
+        <h1>Lista de Compras</h1>
+        <div class="card">
+            <div class="card-body">
+                <h2>Listado de Productos</h2>
+                
+                <ul id="lista-productos">
+                    <li>Pan <button class="btn btn-danger" type="button" onclick="handlerONE(event)">borrar</button> </li>
+                </ul>
+
+                <hr class="hr">
+
+                <h2>Agregar Producto</h2>
+                <form id="form-producto">
+                    <div class="input-group mb-3">
+                        <input type="text" class="form-control" aria-label="Nombre del Producto">
+                        <button class="btn btn-primary" type="submit">Agregar Producto</button>
+                    </div>
+                </form>
+
+                <form id="form-borrar">
+                    <div class="input-group mb-3">
+                        <button class="btn btn-danger" type="button" onclick="handlerBorrar()">Borrar todos los productos </button>
+                    </div>
+                </form>
+
+                <form id="form-borrar">
+                    <div class="input-group mb-3">
+                        <button class="btn btn-warning" type="button" onclick="handlerOrdenar()">Ordenar todos los productos </button>
+                    </div>
+                </form>
+
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm" crossorigin="anonymous"></script>
+    <script type="text/javascript">
+        /**
+         * agregarProducto()
+         * esta función se va a llamar cuando el usuario envía el formulario con el nombre del producto para agregar.
+         */
+        function agregarProducto(nombreProducto) {
+            let listaCompra=document.querySelector("#lista-productos")
+            let NuevaCompra=document.createElement("li") //hace que nueva compra sea un elemento LI
+            let botoncito = document.createElement("button") 
+            //class="btn btn-danger" type="button" onclick="handlerONE()"
+            botoncito.setAttribute("class", "btn btn-danger" ) //settatribute recibe dos valores, primero el nombre del atributro y despues el valor de ese atributo
+            botoncito.setAttribute("type", "button" )
+            botoncito.setAttribute("onclick", `handlerONE(event)` )
+            botoncito.innerText= "borrar"
+            NuevaCompra.textContent=nombreProducto;     // hace que el elemento LI tome el contenido texto del nombre del producto
+            NuevaCompra.appendChild(botoncito)
+            listaCompra.appendChild(NuevaCompra);   //a la lista de la compra (UL) le añade la variable nueva compra que es un LI
+        }
+
+        function limpiarProducto(){
+            let listaCompra = document.querySelectorAll("li")
+            listaCompra.forEach((e) => {e.remove()});
+            
+        } 
+
+        function OrdenarProducto(){
+            let listaCompra = document.querySelectorAll("li")
+            let listaDePalabras = []; //hacemos una lista vacia
+            listaCompra.forEach((elem) => { //recorremos la lista de elementos
+                listaDePalabras.push(elem.innerText);  //a cada elemento lo convierte en un string
+            })
+            listaDePalabras.sort((a,b) => { //con el sort ordenas alfabeticamente
+                return a.localeCompare(b)
+            } );
+
+            limpiarProducto(); //borra todo para volverlo a poner
+
+            // escribimos lista de productos
+            listaDePalabras.forEach(palabra => { 
+                agregarProducto(palabra) 
+            })
+        }
+        function handlerFormulario(e) {
+            e.preventDefault();
+            const input = e.target.querySelector('input');
+            const nombreProducto = input.value;
+            input.value = "";
+            agregarProducto(nombreProducto);
+
+        }
+
+
+        function handlerBorrar(e) {
+        limpiarProducto();
+        }
+
+        function handlerOrdenar(e){
+        OrdenarProducto();
+        }
+
+        function handlerONE(e){
+            e.target.parentNode.remove()
+        }
+
+        document.querySelector('form').addEventListener('submit', handlerFormulario);
+    </script>
+</body>
+</html>
